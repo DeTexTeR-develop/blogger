@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <%- include('./partials/head') %>
+
+</head>
+<body>
+<%- include('./partials/navbar') %>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="card shadow p-4" style="width: 600px;">
+    
+    <h3 class="text-center mb-4">Sign Up</h3>
+
+    <form action="/api/sign-up" method="POST">
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter email">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" name="username" class="form-control" placeholder="Enter Username">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input type="text" name="firstName" class="form-control" placeholder="Enter First Name">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Last Name</label>
+        <input type="text" name="lastName" class="form-control" placeholder="Enter Last Name">
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Gender</label>
+
+        <select class="form-select" name="gender">
+            <option selected disabled>Select gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+    </div>
+
+
+      <div class="mb-3">
+        <label class="form-label">Password</label>
+        <input type="password" name="password" class="form-control" placeholder="Create Password">
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+    </form>
+
+  </div>
+</div>
+    
+
+
+   <%- include('./partials/scripts') %>
+</body>
+</html>

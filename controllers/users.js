@@ -16,15 +16,20 @@ const loginUser = async (req, res) => {
     const isMatch = user.verifyPassword(password);
 
     if (!isMatch) {
-        return res.status(401).json({ message: "Invalid email or password" });
+        return res.status(401).render("login", { error: "Invalid email or password" });
     };
 
     const token = signToken({
         id: user.id,
         email: user.email,
+        name: user.name,
     },{secret : process.env.JWT_SECRET} );
 
-    res.json({ message: "Login successful" , token});
+    res.cookie("token", token).redirect('/');
+};
+
+const logoutUser = (req,res ) => {
+    res.clearCookie("token").redirect("/");
 };
 
 const getAllUsers = async(req, res) => {
@@ -61,4 +66,4 @@ const deleteUser = async(req, res) => {
 };
 
 
-module.exports = {createUserHandler, loginUser, getAllUsers, getUser, updateUser, deleteUser};
+module.exports = {createUserHandler, loginUser, getAllUsers, getUser, updateUser, deleteUser, logoutUser};
