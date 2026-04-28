@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <%- include('./partials/head') %>
+</head>
+<body>
+    <%- include('./partials/navbar') %>
+        <div class="container mt-5">
+        <h2 class="mb-4">Create a Blog Post</h2>
+
+        <form action="/blogs" method="POST">
+            
+            <div class="mb-3">
+                <label for="title" class="form-label">Blog Title</label>
+                <input 
+                    type="text" 
+                    name="title" 
+                    class="form-control" 
+                    id="title" 
+                    placeholder="Enter blog title..." 
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="body" class="form-label">Content</label>
+                <textarea 
+                    name="body" 
+                    class="form-control" 
+                    id="body" 
+                    rows="8" 
+                    placeholder="Write your blog here..." 
+                    required
+                ></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-success">
+                Publish Blog
+            </button>
+        </form>
+    </div>
+   <%- include('./partials/scripts') %>
+</body>
+
+</html>

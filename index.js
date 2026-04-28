@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const app = express();
 const userRouter = require('./routes/users');
+const blogRouter = require('./routes/blogs');
 const PORT = 8000;
 const cookieParser = require('cookie-parser');
 const dbConnection = require('./config/dbConnection');
@@ -24,7 +25,10 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/api', userRouter);
+
+app.use('/user', userRouter);
+app.use('/blogs', blogRouter);
+
 app.get('/', (req, res) => {
     res.render('home', {user: req.user});
 }) 
@@ -33,7 +37,11 @@ app.get('/login', (req, res) => {
 }) 
 app.get('/sign-up', (req, res) => {
     res.render('signup');
-}) 
+});
+
+// app.get('/blogs', (req, res) => {
+//     res.render('blogs')
+// })
 app.listen(PORT, () => {
     console.log(`Listening at port: ${PORT}`);
 });
