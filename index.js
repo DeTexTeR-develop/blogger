@@ -29,19 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/user', userRouter);
 app.use('/blogs', blogRouter);
 
-app.get('/', (req, res) => {
-    res.render('home', {user: req.user});
-}) 
-app.get('/login', (req, res) => {
-    res.render('login');
-}) 
-app.get('/sign-up', (req, res) => {
-    res.render('signup');
-});
 
-// app.get('/blogs', (req, res) => {
-//     res.render('blogs')
-// })
 app.listen(PORT, () => {
     console.log(`Listening at port: ${PORT}`);
 });

@@ -21,15 +21,16 @@ const loginUser = async (req, res) => {
 
     const token = signToken({
         id: user.id,
+        username: user.username,
         email: user.email,
         name: user.name,
     },{secret : process.env.JWT_SECRET} );
 
-    res.cookie("token", token).redirect('/');
+    res.cookie("token", token).redirect("/blogs");
 };
 
 const logoutUser = (req,res ) => {
-    res.clearCookie("token").redirect("/");
+    res.clearCookie("token").redirect("/blogs");
 };
 
 const getAllUsers = async(req, res) => {
@@ -45,18 +46,28 @@ const getUser = async( req, res) => {
 };
 
 const updateUser = async(req, res) =>{
-    const id = req.params.id;
+    const id = req.user.id;
     if(!id){
         throw new Error(err, "id is required");
     };
     const {email, username, lastName} = req.body;
-    console.log(email);
-    if(!email){
-        throw new Error(err, "content required to update");
+    const updateData = {};
+
+    if (username && username.trim() !== "") {
+        updateData.username = username;
+    };
+
+    if (lastName && lastName.trim() !== "") {
+        updateData.lastname = lastname;
     }
-    const updatedUser = await User.findByIdAndUpdate(id, {email, username, lastName});
-    console.log(updatedUser);
-    res.json({message: "User updated", user: updatedUser});
+
+    if (email && email.trim() !== "") {
+        updateData.email = email;
+    }
+
+    await User.findByIdAndUpdate(req.user._id, updateData);
+
+    res.redirect("/blogs");
 };
 
 const deleteUser = async(req, res) => {
