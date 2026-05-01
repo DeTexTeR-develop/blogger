@@ -22,15 +22,18 @@ const blogSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-blogSchema.pre("validate", async function () {
-    if (!this.title) return;
+blogSchema.pre("validate", function (next) {
+    if (this.isNew || this.isModified('title')) {
+        if (!this.title) return next();
 
-    this.slug = this.title
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-') + '-' + Date.now();
+        this.slug = this.title
+            .toLowerCase()
+            .trim()
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-') + '-' + Date.now();
+    }
+    next();
 });
 
 

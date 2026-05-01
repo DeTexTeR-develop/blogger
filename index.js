@@ -26,9 +26,27 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
 app.use('/user', userRouter);
 app.use('/blogs', blogRouter);
 
+// 404 handler
+app.use((req, res) => {
+    res.status(404).send('404 — Page not found');
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    const status = err.status || 500;
+    const message = process.env.NODE_ENV === 'production'
+        ? 'Something went wrong. Please try again.'
+        : err.message;
+    res.status(status).send(message);
+});
 
 app.listen(PORT, () => {
     console.log(`Listening at port: ${PORT}`);

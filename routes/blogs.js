@@ -1,23 +1,15 @@
-
 const express = require('express');
-const {authMiddleware}= require('detexter-auth-kit');
-const { createBlog, getAllBlogs } = require('../controllers/blogs');
-
+const requireAuth = require('../middleware/requireAuth');
+const { createBlog, getAllBlogs, getBlog } = require('../controllers/blogs');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.render('blogs')
-});
-router.get('/', (req, res) => {
-    res.render('home', {user: req.user});
-});
+// Static routes must come before /:slug to avoid being swallowed by the param
+router.get('/', getAllBlogs);
+router.get('/create', requireAuth, (req, res) => res.render('blogs', { error: null }));
+router.post('/', requireAuth, createBlog);
 
-router.get("/", (req, res) => {
-    res.render('blogs')
-})
-router.post("/", authMiddleware({secret: process.env.JWT_SECRET}), createBlog);
-router.get("/get-all-blogs", getAllBlogs);
-
+// Dynamic route last
+router.get('/:slug', getBlog);
 
 module.exports = router;
