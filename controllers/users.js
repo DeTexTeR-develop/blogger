@@ -1,7 +1,6 @@
 const User = require('../models/users');
 const { signToken } = require('detexter-auth-kit');
 
-// Prevent mass assignment; handle duplicate key; redirect on success
 const createUserHandler = async (req, res, next) => {
     try {
         const { username, firstName, lastName, gender, email, password } = req.body;
@@ -20,8 +19,8 @@ const createUserHandler = async (req, res, next) => {
 
 const loginUser = async (req, res, next) => {
     try {
-        const { email, password } = req.body;
-        const user = await User.findOne({ email });
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
 
         if (!user) {
             return res.render('login', { error: 'Invalid email or password' });

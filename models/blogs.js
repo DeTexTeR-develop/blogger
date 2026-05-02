@@ -22,10 +22,9 @@ const blogSchema = new mongoose.Schema({
     },
 }, { timestamps: true });
 
-blogSchema.pre("validate", function (next) {
+blogSchema.pre("validate", function () {
     if (this.isNew || this.isModified('title')) {
-        if (!this.title) return next();
-
+        if (!this.title) return;
         this.slug = this.title
             .toLowerCase()
             .trim()
@@ -33,7 +32,6 @@ blogSchema.pre("validate", function (next) {
             .replace(/\s+/g, '-')
             .replace(/-+/g, '-') + '-' + Date.now();
     }
-    next();
 });
 
 
