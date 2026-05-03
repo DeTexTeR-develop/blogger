@@ -1,15 +1,18 @@
 const express = require('express');
 const requireAuth = require('../middleware/requireAuth');
-const { createBlog, getAllBlogs, getBlog } = require('../controllers/blogs');
+const { createBlog, getAllBlogs, getBlog, getEditBlogForm, updateBlog, deleteBlog } = require('../controllers/blogs');
 
 const router = express.Router();
 
-// Static routes must come before /:slug to avoid being swallowed by the param
 router.get('/', getAllBlogs);
-router.get('/create', requireAuth, (req, res) => res.render('blogs', { error: null }));
+
+router.get('/create', requireAuth, (req, res) => res.render('create_blog', { error: null }));
+
 router.post('/', requireAuth, createBlog);
 
-// Dynamic route last
 router.get('/:slug', getBlog);
+router.get('/:slug/edit', requireAuth, getEditBlogForm);
+router.post('/:slug/edit', requireAuth, updateBlog);
+router.post('/:slug/delete', requireAuth, deleteBlog);
 
 module.exports = router;

@@ -13,7 +13,7 @@ const getBlog = async (req, res, next) => {
     try {
         const blog = await Blog.findOne({ slug: req.params.slug }).populate('author', 'username firstName lastName');
         if (!blog) {
-            return res.status(404).render('404', { error: 'Blog not found' });
+            return res.status(404).send('Blog not found');
         }
         res.render('blog', { blog });
     } catch (err) {
@@ -23,24 +23,19 @@ const getBlog = async (req, res, next) => {
 
 const createBlog = async (req, res, next) => {
     try {
-        if (!req.body) {
-            return res.render('blogs/create', { error: 'Request body is required' });
-        }
-
         const { title, body } = req.body;
 
         if (!title || !title.trim()) {
-            return res.render('blogs/create', { error: 'Title is required' });
+            return res.render('create_blog', { error: 'Title is required' });
         }
         if (!body || !body.trim()) {
-            return res.render('blogs/create', { error: 'Body is required' });
+            return res.render('create_blog', { error: 'Body is required' });
         }
 
         const blog = await Blog.create({
             title,
             body,
             author: req.user.id,
-            coverImage: req.file?.location ?? null,
         });
 
         res.redirect(`/blogs/${blog.slug}`);
@@ -49,4 +44,69 @@ const createBlog = async (req, res, next) => {
     }
 };
 
-module.exports = { createBlog, getAllBlogs, getBlog };
+const getEditBlogForm = async (req, res, next) => {
+    try {
+        const blog = await Blog.findOne({ slug: req.params.slug });
+        if (!blog) {
+            return res.status(404).send('Blog not found');
+        }
+
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).send('Forbidden');
+        }
+
+        res.render('edit_blog', { blog, error: null });
+    } catch (err) {
+        next(err);
+    }
+};
+
+const updateBlog = async (req, res, next) => {
+    try {
+        const blog = await Blog.findOne({ slug: req.params.slug });
+        if (!blog) {
+            return res.status(404).send('Blog not found');
+        }
+
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).send('Forbidden');
+        }
+
+        const { title, body } = req.body;
+
+        if (!title || !title.trim()) {
+            return res.render('edit_blog', { blog, error: 'Title is required' });
+        }
+        if (!body || !body.trim()) {
+            return res.render('edit_blog', { blog, error: 'Body is required' });
+        }
+
+        blog.title = title;
+        blog.body = body;
+        await blog.save();
+
+        res.redirect(`/blogs/${blog.slug}`);
+    } catch (err) {
+        next(err);
+    }
+};
+
+const deleteBlog = async (req, res, next) => {
+    try {
+        const blog = await Blog.findOne({ slug: req.params.slug });
+        if (!blog) {
+            return res.status(404).send('Blog not found');
+        }
+
+        if (blog.author.toString() !== req.user.id) {
+            return res.status(403).send('Forbidden');
+        }
+
+        await Blog.findByIdAndDelete(blog._id);
+        res.redirect('/blogs');
+    } catch (err) {
+        next(err);
+    }
+};
+
+module.exports = { createBlog, getAllBlogs, getBlog, getEditBlogForm, updateBlog, deleteBlog };

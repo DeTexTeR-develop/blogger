@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog</title>
+    <%- include('./partials/head') %>
+</head>
+<body>
+    <%- include('./partials/navbar') %>
+
+    <div class="container mt-5" style="max-width: 800px;">
+        <h2 class="mb-4">Edit Blog</h2>
+
+        <% if (error) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= error %>
+            </div>
+        <% } %>
+
+        <form action="/blogs/<%= blog.slug %>/edit" method="POST">
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Blog Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="form-control"
+                    value="<%= blog.title %>"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="body" class="form-label">Content</label>
+                <textarea
+                    name="body"
+                    id="body"
+                    class="form-control"
+                    rows="10"
+                    style="min-height: 200px;"
+                    required
+                ><%= blog.body %></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <a href="/blogs/<%= blog.slug %>" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Update Blog</button>
+            </div>
+
+        </form>
+    </div>
+
+    <%- include('./partials/scripts') %>
+</body>
+</html>

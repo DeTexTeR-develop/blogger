@@ -12,7 +12,6 @@ const {
 
 const router = express.Router();
 
-// Auth pages
 router.get('/sign-up', (req, res) => res.render('signup', { error: null }));
 router.post('/sign-up', createUserHandler);
 
@@ -21,7 +20,6 @@ router.post('/login', loginUser);
 
 router.get('/logout', logoutUser);
 
-// Protected user routes — requireAuth redirects to /user/login instead of showing "invalid token"
 router.get('/edit-user', requireAuth, (req, res) => res.render('edit_user', { user: req.user }));
 router.post('/update-user', requireAuth, updateUser);
 

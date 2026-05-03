@@ -11,7 +11,7 @@ const { verifyTokenByCookie } = require('./middleware/auth');
 
 dbConnection(process.env.MONGO_URL);
 
-app.set('view engine', 'ejs'); // ✅ correct
+app.set('view engine', 'ejs');
 app.set('views', path.resolve('./views'));
 
 app.use(cookieParser());
@@ -33,12 +33,10 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter);
 app.use('/blogs', blogRouter);
 
-// 404 handler
 app.use((req, res) => {
     res.status(404).send('404 — Page not found');
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
     const status = err.status || 500;
