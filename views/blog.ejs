@@ -1,57 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= blog.title %></title>
+    <title><%= blog.title %> — Blogger</title>
     <%- include('./partials/head') %>
+    <%- include('./partials/theme') %>
 </head>
 <body>
     <%- include('./partials/navbar') %>
 
-    <div class="container mt-5" style="max-width: 800px;">
+    <div class="page-wrapper">
+        <div class="container py-5" style="max-width: 780px;">
 
-        <h1 class="mb-2"><%= blog.title %></h1>
+            <a href="/blogs" style="color: #64748b; font-size: 0.9rem; text-decoration: none;">← Back to all blogs</a>
 
-        <p class="text-muted mb-1">
-            By <strong><%= blog.author.username %></strong>
-        </p>
-        <p class="text-muted small mb-4">
-            Published <%= new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
-        </p>
+            <h1 style="font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; letter-spacing: -0.02em; margin-top: 1.5rem; margin-bottom: 0.75rem;">
+                <%= blog.title %>
+            </h1>
 
-        <hr>
-
-        <p class="mt-4" style="white-space: pre-wrap;"><%= blog.body %></p>
-
-        <!-- Edit / Delete buttons — only visible to the author -->
-        <% if (user && user.id === blog.author._id.toString()) { %>
-            <div class="d-flex gap-2 mt-5">
-                <a href="/blogs/<%= blog.slug %>/edit" class="btn btn-warning">Edit Blog</a>
-                <button
-                    type="button"
-                    class="btn btn-danger"
-                    data-bs-toggle="modal"
-                    data-bs-target="#deleteModal"
-                >
-                    Delete Blog
-                </button>
+            <div class="d-flex align-items-center gap-3 mb-4">
+                <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #10b981); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: white; flex-shrink: 0;">
+                    <%= blog.author.username.charAt(0).toUpperCase() %>
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #e2e8f0; font-size: 0.95rem;"><%= blog.author.username %></div>
+                    <div style="font-size: 0.8rem; color: #64748b;">
+                        <%= new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                    </div>
+                </div>
+                <% if (user && user.id === blog.author._id.toString()) { %>
+                    <div class="ms-auto d-flex gap-2">
+                        <a href="/blogs/<%= blog.slug %>/edit" class="btn btn-warning btn-sm">Edit</a>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            Delete
+                        </button>
+                    </div>
+                <% } %>
             </div>
-        <% } %>
 
+            <hr>
+
+            <div style="font-size: 1.05rem; line-height: 1.85; color: #cbd5e1; white-space: pre-wrap; margin-top: 2rem;">
+                <%= blog.body %>
+            </div>
+
+        </div>
     </div>
 
-    <!-- Delete confirmation modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Blog Post</h5>
+                    <h5 class="modal-title">Delete Blog Post</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Are you sure you want to delete <strong><%= blog.title %></strong>?</p>
-                    <p class="text-danger mb-0">This action cannot be undone.</p>
+                    <p class="text-danger mb-0" style="font-size: 0.9rem;">This action cannot be undone.</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

@@ -1,64 +1,60 @@
-<nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="/">Blogger</a>
+<nav class="navbar navbar-expand-lg" style="background: rgba(13,15,20,0.95); border-bottom: 1px solid rgba(255,255,255,0.07); backdrop-filter: blur(12px);">
+  <div class="container">
+    <a class="navbar-brand fw-800" href="/" style="font-weight: 800; font-size: 1.2rem; background: linear-gradient(135deg, #6366f1, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+      Blogger
+    </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown">
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" style="color: #94a3b8;">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav">
-
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
+          <a class="nav-link" href="/" style="color: #94a3b8; font-size: 0.9rem;">Home</a>
         </li>
-
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="/blogs" style="color: #94a3b8; font-size: 0.9rem;">Blogs</a>
         </li>
+      </ul>
 
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
         <% if (user) { %>
-
           <li class="nav-item">
-            <a class="nav-link" href="/blogs">Blogs</a>
+            <a href="/blogs/create" class="btn btn-primary btn-sm" style="font-size: 0.85rem; padding: 0.4rem 1rem;">+ Write</a>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link" href="/blogs/create">Add Blog</a>
-          </li>
-
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown" style="color: #e2e8f0; font-size: 0.9rem;">
+              <div style="width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #6366f1, #10b981); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.75rem; color: white; flex-shrink: 0;">
+                <%= user.username.charAt(0).toUpperCase() %>
+              </div>
               <%= user.username %>
             </a>
-
-          <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end" style="background: #161a24; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; min-width: 160px;">
               <li>
-                <a class="dropdown-item" href="/user/edit-user">Edit Profile</a>
+                <a class="dropdown-item" href="/user/edit-user" style="color: #cbd5e1; font-size: 0.9rem; padding: 0.6rem 1rem;">Edit Profile</a>
               </li>
+              <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.07);"></li>
               <li>
-                <a class="dropdown-item" href="/user/logout">Logout</a>
+                <a class="dropdown-item" href="/user/logout" style="color: #f87171; font-size: 0.9rem; padding: 0.6rem 1rem;">Logout</a>
               </li>
             </ul>
           </li>
-
         <% } else { %>
-        <li class="nav-item">
-            <a class="nav-link" href="/user/sign-up">Create Account</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/user/login" style="color: #94a3b8; font-size: 0.9rem;">Sign In</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/user/login">Login</a>
+            <a href="/user/sign-up" class="btn btn-primary btn-sm" style="font-size: 0.85rem; padding: 0.4rem 1rem;">Get Started</a>
           </li>
-
         <% } %>
-
       </ul>
     </div>
   </div>
 </nav>
 
 <% if (typeof error !== 'undefined' && error) { %>
-  <div class="alert alert-danger m-3" role="alert">
-    <%= error %>
+  <div class="container mt-3">
+    <div class="alert alert-danger" role="alert"><%= error %></div>
   </div>
 <% } %>

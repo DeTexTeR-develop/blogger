@@ -1,14 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Blogger — Share Your Story</title>
     <%- include('./partials/head') %>
+    <style>
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(ellipse at 60% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 70%),
+                        radial-gradient(ellipse at 20% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 60%);
+        }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #a5b4fc;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            max-width: 520px;
+            line-height: 1.7;
+        }
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            border: none;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-primary-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+        }
+        .btn-outline-custom {
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            color: #e2e8f0;
+            background: transparent;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .btn-outline-custom:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(255,255,255,0.35);
+            color: #fff;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+        }
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 16px;
+            padding: 2rem;
+            height: 100%;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+        .feature-card:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+        }
+        .divider {
+            border-color: rgba(255,255,255,0.07);
+        }
+        .cta-section {
+            background: rgba(99, 102, 241, 0.08);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 24px;
+            padding: 4rem 2rem;
+        }
+    </style>
 </head>
 <body>
     <%- include('./partials/navbar') %>
-   <%- include('./partials/scripts') %>
-</body>
 
+    <section class="hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <div class="hero-badge">✦ A place for your ideas</div>
+                    <h1>
+                        Write. Share.<br>
+                        <span class="gradient-text">Inspire.</span>
+                    </h1>
+                    <p class="hero-sub mt-4">
+                        Blogger is a clean, distraction-free platform for sharing your thoughts with the world. No noise — just your words.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 mt-5">
+                        <% if (user) { %>
+                            <a href="/blogs/create" class="btn btn-primary-custom text-white">
+                                Write a Blog
+                            </a>
+                            <a href="/blogs" class="btn btn-outline-custom">
+                                Browse Posts
+                            </a>
+                        <% } else { %>
+                            <a href="/user/sign-up" class="btn btn-primary-custom text-white">
+                                Get Started Free
+                            </a>
+                            <a href="/blogs" class="btn btn-outline-custom">
+                                Browse Posts
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 d-none d-lg-block">
+                    <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem;">
+                        <div style="background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.2); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <div style="font-size: 0.75rem; color: #6366f1; font-weight: 600; margin-bottom: 0.5rem;">LATEST POST</div>
+                            <div style="font-weight: 700; font-size: 1.05rem; color: #e2e8f0;">The Art of Writing Simply</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem;">by @writer · 2 hours ago</div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <div style="font-size: 0.75rem; color: #10b981; font-weight: 600; margin-bottom: 0.5rem;">TRENDING</div>
+                            <div style="font-weight: 700; font-size: 1.05rem; color: #e2e8f0;">Why Consistency Beats Talent</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem;">by @creator · 1 day ago</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 1.5rem;">
+                            <div style="font-size: 0.75rem; color: #94a3b8; font-weight: 600; margin-bottom: 0.5rem;">POPULAR</div>
+                            <div style="font-weight: 700; font-size: 1.05rem; color: #e2e8f0;">Building Habits That Stick</div>
+                            <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.4rem;">by @thinker · 3 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-0">
+                <div class="col-4 stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Free to use</div>
+                </div>
+                <div class="col-4 stat-card" style="border-left: 1px solid rgba(255,255,255,0.07); border-right: 1px solid rgba(255,255,255,0.07);">
+                    <div class="stat-number">∞</div>
+                    <div class="stat-label">Posts you can write</div>
+                </div>
+                <div class="col-4 stat-card">
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Distractions</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="divider">
+
+    <section class="py-6 py-md-7" style="padding-top: 5rem; padding-bottom: 5rem;">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 style="font-size: 2rem; font-weight: 800;">Everything you need to write</h2>
+                <p style="color: #64748b; margin-top: 0.75rem;">Simple tools, zero clutter.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: rgba(99,102,241,0.15);">✍️</div>
+                        <h5 style="font-weight: 700;">Clean Editor</h5>
+                        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 0;">A distraction-free writing experience that keeps the focus on your words.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: rgba(16,185,129,0.12);">🔒</div>
+                        <h5 style="font-weight: 700;">Your Content</h5>
+                        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 0;">Only you can edit or delete your posts. Full ownership, always.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="background: rgba(245,158,11,0.12);">⚡</div>
+                        <h5 style="font-weight: 700;">Instant Publishing</h5>
+                        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 0;">Hit publish and your post is live immediately. No review queues.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <% if (!user) { %>
+    <section style="padding-top: 2rem; padding-bottom: 5rem;">
+        <div class="container">
+            <div class="cta-section text-center">
+                <h2 style="font-size: 2rem; font-weight: 800;">Ready to start writing?</h2>
+                <p style="color: #94a3b8; margin-top: 0.75rem; margin-bottom: 2rem;">Create your free account and publish your first post in minutes.</p>
+                <a href="/user/sign-up" class="btn btn-primary-custom text-white me-3">Create Account</a>
+                <a href="/user/login" class="btn btn-outline-custom">Sign In</a>
+            </div>
+        </div>
+    </section>
+    <% } %>
+
+    <%- include('./partials/scripts') %>
+</body>
 </html>
