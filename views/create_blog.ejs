@@ -23,7 +23,7 @@
             <% } %>
 
             <div class="form-card">
-                <form action="/blogs" method="POST">
+                <form action="/blogs" method="POST" enctype="multipart/form-data">
                     <div class="mb-4">
                         <label for="title" class="form-label">Title</label>
                         <input
@@ -46,6 +46,16 @@
                             placeholder="Write your story here..."
                             required
                         ></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="coverImage" class="form-label">Cover Image <span class="text-muted" style="font-size: 0.8rem;">(optional)</span></label>
+                        <input
+                            type="file"
+                            name="coverImage"
+                            id="coverImage"
+                            class="form-control"
+                            accept="image/*"
+                        >
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="/blogs" class="btn btn-secondary">Cancel</a>

@@ -27,7 +27,11 @@
                 <div class="row g-4">
                     <% blogs.forEach(blog => { %>
                         <div class="col-md-6 col-lg-4">
-                            <div class="glass-card h-100 p-4 d-flex flex-column">
+                            <div class="glass-card h-100 d-flex flex-column" style="overflow: hidden;">
+                                <% if (blog.coverImage) { %>
+                                    <img src="<%= blog.coverImage %>" alt="<%= blog.title %>" style="width: 100%; height: 160px; object-fit: cover;">
+                                <% } %>
+                                <div class="p-4 d-flex flex-column flex-grow-1">
                                 <h5 style="font-weight: 700; font-size: 1.05rem;">
                                     <a href="/blogs/<%= blog.slug %>" class="text-decoration-none" style="color: #e2e8f0;">
                                         <%= blog.title %>
@@ -44,6 +48,7 @@
                                 <a href="/blogs/<%= blog.slug %>" class="btn btn-outline-primary btn-sm mt-3 align-self-start">
                                     Read more →
                                 </a>
+                                </div>
                             </div>
                         </div>
                     <% }) %>
